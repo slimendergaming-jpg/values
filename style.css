@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     background-color: #0f1115;
     color: #e2e8f0;
     padding: 20px;
@@ -8,34 +8,77 @@ body {
 }
 
 header {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
-h1 {
+h1 { color: #ffffff; margin-bottom: 20px; }
+
+/* Control Containers */
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Nav Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+.tab-btn, .mode-btn {
+    background-color: #1a1d24;
+    border: 1px solid #2d3139;
+    color: #a0aec0;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.tab-btn.active, .mode-btn.active {
+    background-color: #2b6cb0;
     color: #ffffff;
+    border-color: #4299e1;
 }
 
+/* Utility Layout inputs */
 #searchBar {
     width: 90%;
     max-width: 400px;
-    padding: 10px;
-    border-radius: 20px;
+    padding: 12px;
+    border-radius: 25px;
     border: 1px solid #2d3748;
     background-color: #1a202c;
     color: #ffffff;
 }
 
+/* Card Rarity Profiles */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
 }
-
 .pet-card {
     background-color: #1a1d24;
-    border: 1px solid #2d3139;
     border-radius: 12px;
     padding: 15px;
+    border-top: 6px solid #cbd5e0;
+}
+
+/* Custom Rarity Colors Assigned */
+.pet-card.common { border-top-color: #3182ce; }       /* Blue */
+.pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
+.pet-card.rare { border-top-color: #48bb78; }         /* Darker Lime Green */
+.pet-card.ultra-rare { border-top-color: #e53e3e; }   /* Red */
+.pet-card.legendary { border-top-color: #111111; }    /* Black */
+
+.rarity-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
 }
