@@ -1,0 +1,18 @@
+[
+  {
+    "id": "shadow_dragon",
+    "name": "Shadow Dragon",
+    "rarity": "Legendary",
+    "value": 150.0,
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Shadow+Dragon"
+  },
+  {
+    "id": "frost_dragon",
+    "name": "Frost Dragon",
+    "rarity": "Legendary",
+    "value": 95.0,
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Frost+Dragon"
+  }
+]
