@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Values</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #ff9900;
-        }
-    </style>
+    <title>Adopt Me Trading Values</title>
+    <!-- Link to our clean styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Adopt Me Trading Values</h1>
-    <p>Site is currently under construction. Stay tuned!</p>
+
+    <header>
+        <h1>Adopt Me Trading Values</h1>
+        <input type="text" id="searchBar" placeholder="Search pets, items, or rarities...">
+    </header>
+
+    <main>
+        <!-- This grid dynamically populates using JavaScript -->
+        <section id="petGrid" class="grid"></section>
+    </main>
+
+    <!-- Link to our application engine -->
+    <script src="app.js"></script>
 </body>
 </html>
