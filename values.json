@@ -3,7 +3,12 @@
     "id": "shadow_dragon",
     "name": "Shadow Dragon",
     "rarity": "Legendary",
-    "value": 150.0,
+    "type": "pet",
+    "values": {
+      "normal": 150.0,
+      "neon": 600.0,
+      "mega": 2400.0
+    },
     "demand": "High",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Shadow+Dragon"
   },
@@ -11,8 +16,61 @@
     "id": "frost_dragon",
     "name": "Frost Dragon",
     "rarity": "Legendary",
-    "value": 95.0,
+    "type": "pet",
+    "values": {
+      "normal": 100.0,
+      "neon": 400.0,
+      "mega": 1600.0
+    },
     "demand": "High",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Frost+Dragon"
+  },
+  {
+    "id": "turtle",
+    "name": "Turtle",
+    "rarity": "Legendary",
+    "type": "pet",
+    "values": {
+      "normal": 25.0,
+      "neon": 100.0,
+      "mega": 400.0
+    },
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Turtle"
+  },
+  {
+    "id": "parrot",
+    "name": "Parrot",
+    "rarity": "Legendary",
+    "type": "pet",
+    "values": {
+      "normal": 70.0,
+      "neon": 280.0,
+      "mega": 1120.0
+    },
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Parrot"
+  },
+  {
+    "id": "tombstone",
+    "name": "Tombstone Ghost Toy",
+    "rarity": "Legendary",
+    "type": "toy",
+    "values": {
+      "normal": 70.0
+    },
+    "demand": "Medium",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Tombstone"
+  },
+  {
+    "id": "candy_cannon",
+    "name": "Candy Cannon",
+    "rarity": "Legendary",
+    "type": "toy",
+    "values": {
+      "normal": 2400.0
+    },
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Candy+Cannon"
   }
 ]
