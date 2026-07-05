@@ -1,5 +1,6 @@
 let petData = [];
 let currentTab = 'all';
+let modalTab = 'all'; // Track categories independently inside item selector
 let currentVariant = 'normal';
 let valueMode = 'points';
 let activeView = 'database';
@@ -8,9 +9,10 @@ let yourOfferList = [];
 let theirOfferList = [];
 let activeTargetSide = 'your';
 
+// PERSISTENT SELECTION HOOKS: Choices do not clear upon closing or reopening windows
 let selectedVariant = 'normal'; 
-let selectedFly = false;
-let selectedRide = false;
+let selectedFly = true;  // Defaulting to active to lock default old pet baselines
+let selectedRide = true;
 
 async function loadPetData() {
     try {
@@ -29,16 +31,27 @@ function calculateItemValue(item, variant, fly, ride) {
     
     let value = item.values[variant] || item.values['normal'] || 0;
     
+    // Safety check for non-pets
     if (item.type !== 'pet') {
-        fly = false;
-        ride = false;
+        return value;
     }
     
-    if (fly) value += 8;
-    if (ride) value += 5;
-    
-    if (item.type === 'pet' && item.isOld && (fly || ride)) {
-        value = value * 0.90;
+    // --- UPDATED OLD PET NO-POT COLLECTOR REWARD LOGIC ---
+    if (item.isOld) {
+        let potionCount = 0;
+        if (fly) potionCount++;
+        if (ride) potionCount++;
+
+        if (potionCount === 1) {
+            value = value * 1.10; // Only 1 potion = +10%
+        } else if (potionCount === 0) {
+            value = value * 1.20; // No Potion / Clean = +20%
+        }
+        // If potionCount === 2 (Fly & Ride), it stays at the base value
+    } else {
+        // Standard regular pet additions logic
+        if (fly) value += 8;
+        if (ride) value += 5;
     }
     
     return value;
@@ -65,7 +78,7 @@ function renderDatabaseView() {
     });
 
     filtered.forEach(item => {
-        const baseValue = calculateItemValue(item, currentVariant, false, false);
+        const baseValue = calculateItemValue(item, currentVariant, currentVariant === 'normal', currentVariant === 'normal');
         const card = document.createElement('div');
         const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
         card.className = `pet-card ${rarityClass}`;
@@ -128,23 +141,21 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         warningEl.innerText = '';
     }
 
-    // 1. Loop through and create active slotted items
     listArray.forEach((item, index) => {
         const slot = document.createElement('div');
         slot.className = 'grid-slot occupied';
-        
-        // Dynamic edge coloring match based on explicit item configurations
         slot.style.borderTop = `4px solid ${getBorderColorByRarity(item.data.rarity)}`;
         
         let itemVal = calculateItemValue(item.data, item.variant, item.fly, item.ride);
         const imagePath = `images/${item.data.name}.png`;
         
-        // Formulates customized icon badges inside item grid cards
         let badgesHtml = '';
-        if (item.variant === 'neon') badgesHtml += '<span class="mini-pot" style="background:#d69e2e; color:white;">N</span>';
-        if (item.variant === 'mega') badgesHtml += '<span class="mini-pot" style="background:#805ad5; color:white;">M</span>';
-        if (item.fly) badgesHtml += '<span class="mini-pot" style="background:#3182ce; color:white;">F</span>';
-        if (item.ride) badgesHtml += '<span class="mini-pot" style="background:#e53e3e; color:white;">R</span>';
+        if (item.data.type === 'pet') {
+            if (item.variant === 'neon') badgesHtml += '<span class="mini-pot" style="background:#d69e2e; color:white;">N</span>';
+            if (item.variant === 'mega') badgesHtml += '<span class="mini-pot" style="background:#805ad5; color:white;">M</span>';
+            if (item.fly) badgesHtml += '<span class="mini-pot" style="background:#3182ce; color:white;">F</span>';
+            if (item.ride) badgesHtml += '<span class="mini-pot" style="background:#e53e3e; color:white;">R</span>';
+        }
         
         slot.innerHTML = `
             <div class="slotted-item">
@@ -162,14 +173,12 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         container.appendChild(slot);
     });
 
-    // 2. Append exactly one clean functional addition selector button element
     const plusSlot = document.createElement('div');
     plusSlot.className = 'grid-slot';
     plusSlot.innerHTML = '<span class="slot-plus">+</span>';
     plusSlot.addEventListener('click', () => openModalSelector(sideName));
     container.appendChild(plusSlot);
 
-    // 3. Render out dashboard empty slot boxes until reaching a clean 3x3 layout minimum
     let totalItemsDisplayed = listArray.length + 1; 
     let trailingPlaceholdersRequired = Math.max(9, Math.ceil(totalItemsDisplayed / 3) * 3) - totalItemsDisplayed;
 
@@ -194,10 +203,7 @@ function getBorderColorByRarity(rarity) {
 
 function openModalSelector(side) {
     activeTargetSide = side;
-    selectedVariant = 'normal';
-    selectedFly = false;
-    selectedRide = false;
-    
+    // Uses saved selections instead of clearing out inputs
     updateModalUIPots('pet');
     document.getElementById('modalOverlay').classList.add('active');
     renderModalItemList();
@@ -226,7 +232,11 @@ function renderModalItemList() {
     listContainer.innerHTML = '';
     const query = document.getElementById('modalSearch').value.toLowerCase();
     
-    const filtered = petData.filter(i => i.name.toLowerCase().includes(query));
+    const filtered = petData.filter(i => {
+        const matchSearch = i.name.toLowerCase().includes(query);
+        const matchTab = (modalTab === 'all') || (i.type === modalTab);
+        return matchSearch && matchTab;
+    });
     
     filtered.forEach(item => {
         const card = document.createElement('div');
@@ -243,7 +253,7 @@ function renderModalItemList() {
             <img src="${imagePath}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 4px;" onerror="this.src='https://placehold.co/40x40/1a1d24/ffffff?text=?';">
             <h5>${item.name}</h5>
             <p>${formatDisplayValue(val)}</p>
-            <span class="tag-indicator">${item.type.toUpperCase()} - ${item.rarity}</span>
+            <span class="tag-indicator">${item.type.toUpperCase()}</span>
         `;
         
         card.addEventListener('click', () => {
@@ -284,14 +294,27 @@ function setupFrameworkEvents() {
     });
 
     document.getElementById('searchBar').addEventListener('input', renderDatabaseView);
-    document.querySelectorAll('.tab-btn').forEach(b => {
+    
+    // Main Panel Tab Engine Filters
+    document.querySelectorAll('#dbSection .tab-btn').forEach(b => {
         b.addEventListener('click', (e) => {
-            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#dbSection .tab-btn').forEach(t => t.classList.remove('active'));
             e.target.classList.add('active');
             currentTab = e.target.dataset.tab;
             renderDatabaseView();
         });
     });
+
+    // Add Menu Popup Tab Engine Filters
+    document.querySelectorAll('.modal-tabs .tab-btn').forEach(b => {
+        b.addEventListener('click', (e) => {
+            document.querySelectorAll('.modal-tabs .tab-btn').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            modalTab = e.target.dataset.tab;
+            renderModalItemList();
+        });
+    });
+
     document.querySelectorAll('.variant-btn').forEach(b => {
         b.addEventListener('click', (e) => {
             document.querySelectorAll('.variant-btn').forEach(v => v.classList.remove('active'));
