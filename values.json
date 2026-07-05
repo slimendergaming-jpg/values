@@ -10,8 +10,7 @@
       "neon": 1600.0,
       "mega": 6400.0
     },
-    "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Shadow+Dragon"
+    "demand": "High"
   },
   {
     "id": "frost_dragon",
@@ -24,8 +23,7 @@
       "neon": 400.0,
       "mega": 1600.0
     },
-    "demand": "High",
-    "image": "https://static.wikia.nocookie.net/adoptme/images/f/fd/Frost_Dragon_Pet.png/revision/latest?cb=20200116000126"
+    "demand": "High"
   },
   {
     "id": "turtle",
@@ -37,8 +35,7 @@
       "neon": 100.0,
       "mega": 400.0
     },
-    "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Turtle"
+    "demand": "High"
   },
   {
     "id": "parrot",
@@ -50,8 +47,7 @@
       "neon": 300.0,
       "mega": 1200.0
     },
-    "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Parrot"
+    "demand": "High"
   },
   {
     "id": "tombstone",
@@ -61,8 +57,7 @@
     "values": {
       "normal": 75.0
     },
-    "demand": "Medium",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Tombstone"
+    "demand": "Medium"
   },
   {
     "id": "candy_cannon",
@@ -72,7 +67,6 @@
     "values": {
       "normal": 2400.0
     },
-    "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Candy+Cannon"
+    "demand": "High"
   }
 ]
