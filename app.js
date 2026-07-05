@@ -110,7 +110,8 @@ function renderTradeEngine() {
     const balanceDiv = document.getElementById('tradeBalance');
     const badge = document.getElementById('statusBadge');
     
-    let diff = yourTotal - theirTotal;
+    // Inverted layout calculations: Win means getting more value than giving
+    let diff = theirTotal - yourTotal;
     
     balanceDiv.className = 'trade-total';
     if (yourTotal === 0 && theirTotal === 0) {
@@ -134,12 +135,12 @@ function renderTradeEngine() {
     } else if (Math.abs(diff) <= (yourTotal * 0.07)) {
         badge.innerText = 'FAIR';
         badge.classList.add('fair');
-    } else if (yourTotal > theirTotal) {
-        badge.innerText = 'LOSE';
-        badge.classList.add('lose');
-    } else {
+    } else if (theirTotal > yourTotal) {
         badge.innerText = 'WIN';
         badge.classList.add('win');
+    } else {
+        badge.innerText = 'LOSE';
+        badge.classList.add('lose');
     }
 }
 
@@ -198,18 +199,18 @@ function renderSideList(containerId, listArray, sideName, warningId) {
     for (let i = 0; i < trailingPlaceholdersRequired; i++) {
         const blankSlot = document.createElement('div');
         blankSlot.className = 'grid-slot placeholder';
-        blankSlot.innerHTML = '<span style="color:#222630; font-weight:bold;">-</span>';
+        blankSlot.innerHTML = '<span style="color:#1c212d; font-weight:bold;">-</span>';
         container.appendChild(blankSlot);
     }
 }
 
 function getBorderColorByRarity(rarity) {
     switch(rarity.toLowerCase()) {
-        case 'common': return '#3182ce';       // Blue
-        case 'uncommon': return '#805ad5';     // Purple
-        case 'rare': return '#48bb78';         // Green
-        case 'ultra-rare': return '#e53e3e';   // Red
-        case 'legendary': return '#111111';    // Black
+        case 'common': return '#3182ce';
+        case 'uncommon': return '#805ad5';
+        case 'rare': return '#48bb78';
+        case 'ultra-rare': return '#e53e3e';
+        case 'legendary': return '#111111';
         default: return '#2d3139';
     }
 }
@@ -262,10 +263,12 @@ function renderModalItemList() {
         const imagePath = `images/${item.name}.png`;
         
         card.innerHTML = `
-            <img src="${imagePath}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 4px;" onerror="this.src='https://placehold.co/40x40/1a1d24/ffffff?text=?';">
-            <h5>${item.name}</h5>
-            <p>${formatDisplayValue(val)}</p>
-            <span class="tag-indicator">${item.type.toUpperCase()}</span>
+            <img src="${imagePath}" alt="${item.name}" style="width: 45px; height: 45px; object-fit: contain;" onerror="this.src='https://placehold.co/45x45/1a1d24/ffffff?text=?';">
+            <div>
+                <h5>${item.name}</h5>
+                <p>${formatDisplayValue(val)}</p>
+            </div>
+            <span class="tag-indicator">${item.type}</span>
         `;
         
         card.addEventListener('click', () => {
@@ -308,12 +311,16 @@ function setupFrameworkEvents() {
     document.getElementById('searchBar').addEventListener('input', renderDatabaseView);
     
     document.querySelectorAll('#dbSection .tab-btn').forEach(b => {
-        b.addEventListener('click', (e) => {
-            document.querySelectorAll('#dbSection .tab-btn').forEach(t => t.classList.remove('active'));
-            e.target.classList.add('active');
-            currentTab = e.target.dataset.tab;
-            renderDatabaseView();
-        });
+        if(b.id !== 'dbFlyBtn' && b.id !== 'dbRideBtn') {
+            b.addEventListener('click', (e) => {
+                document.querySelectorAll('#dbSection .tab-btn').forEach(t => {
+                    if(t.id !== 'dbFlyBtn' && t.id !== 'dbRideBtn') t.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                currentTab = e.target.dataset.tab;
+                renderDatabaseView();
+            });
+        }
     });
 
     document.querySelectorAll('.modal-tabs .tab-btn').forEach(b => {
@@ -334,6 +341,7 @@ function setupFrameworkEvents() {
         });
     });
 
+    // FIXED: Clean value handling execution that doesn't scrub tabs
     document.getElementById('dbFlyBtn').addEventListener('click', (e) => {
         dbFly = !dbFly;
         e.target.classList.toggle('active', dbFly);
