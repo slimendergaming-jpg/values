@@ -10,7 +10,7 @@ body {
 header { margin-bottom: 20px; }
 h1 { color: #ffffff; font-size: 2.2rem; }
 
-/* View Navigation */
+/* View Navigation Switching */
 .view-nav {
     display: flex;
     justify-content: center;
@@ -34,7 +34,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-color: #4299e1;
 }
 
-/* Control Elements */
+/* Control Wrappers */
 .controls-container {
     display: flex;
     flex-direction: column;
@@ -69,7 +69,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     font-size: 1rem;
 }
 
-/* View Sweeping */
+/* Base Hidden Sections */
 .view-section { display: none; }
 .view-section.active { display: block; }
 
@@ -81,6 +81,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     margin: 0 auto;
 }
 
+/* Cards & Precision Rarity Profiles */
 .pet-card {
     background-color: #1a1d24;
     border-radius: 12px;
@@ -88,7 +89,13 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     text-align: center;
     border-top: 6px solid #cbd5e0;
 }
-.pet-card.legendary { border-top-color: #3182ce; }
+
+/* Rarity classes applied directly via javascript */
+.pet-card.common { border-top-color: #3182ce; }       /* Blue */
+.pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
+.pet-card.rare { border-top-color: #48bb78; }         /* Darker Lime Green */
+.pet-card.ultra-rare { border-top-color: #e53e3e; }   /* Red */
+.pet-card.legendary { border-top-color: #111111; }    /* Black */
 
 .rarity-tag {
     font-size: 0.75rem;
@@ -99,7 +106,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     color: #a0aec0;
 }
 
-/* --- DYNAMIC CALC MATRIX LIST DESIGN --- */
+/* --- TRADE PANEL SETUP --- */
 .trade-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -151,7 +158,6 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     min-height: 18px;
 }
 
-/* Matrix list container with scroll capabilities */
 .matrix-grid-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -213,7 +219,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     justify-content: center;
 }
 
-/* --- MODAL CONTROL BOX LAYOUT --- */
+/* --- ADDT ITEM SELECTION DIALOG WINDOW --- */
 .modal-overlay {
     display: none;
     position: fixed;
