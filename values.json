@@ -8,7 +8,7 @@
     "values": {
       "normal": 400.0,
       "neon": 1600.0,
-      "mega": 6400.0
+      "mega": 2400.0
     },
     "demand": "High"
   },
@@ -38,14 +38,12 @@
     "demand": "High"
   },
   {
-    "id": "parrot",
-    "name": "Parrot",
+    "id": "candy_cannon",
+    "name": "Candy Cannon",
     "rarity": "Legendary",
-    "type": "pet",
+    "type": "toy",
     "values": {
-      "normal": 75.0,
-      "neon": 300.0,
-      "mega": 1200.0
+      "normal": 2400.0
     },
     "demand": "High"
   },
@@ -58,15 +56,6 @@
       "normal": 75.0
     },
     "demand": "Medium"
-  },
-  {
-    "id": "candy_cannon",
-    "name": "Candy Cannon",
-    "rarity": "Legendary",
-    "type": "toy",
-    "values": {
-      "normal": 2400.0
-    },
-    "demand": "High"
   }
+  
 ]
