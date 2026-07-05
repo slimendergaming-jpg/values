@@ -3,15 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Values</title>
+    <title>Adopt Me Trading Values</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <h1>Adopt Me Trading Values</h1>
-        <input type="text" id="searchBar" placeholder="Search pets...">
     </header>
+
+    <div class="controls-container">
+        <!-- Search bar -->
+        <input type="text" id="searchBar" placeholder="Search values database...">
+
+        <!-- Item Category Navigation Filters -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="all">All Items</button>
+            <button class="tab-btn" data-tab="pet">Pets</button>
+            <button class="tab-btn" data-tab="toy">Toys</button>
+            <button class="tab-btn" data-tab="food">Food</button>
+            <button class="tab-btn" data-tab="stroller">Strollers</button>
+            <button class="tab-btn" data-tab="gift">Gifts</button>
+        </div>
+
+        <!-- Multiplier Variant Controls -->
+        <div class="tabs">
+            <button class="variant-btn active" data-variant="normal">Normal</button>
+            <button class="variant-btn" data-variant="neon">Neon</button>
+            <button class="variant-btn" data-variant="mega">Mega Neon</button>
+        </div>
+
+        <!-- Value Mode Math Configuration Toggles -->
+        <div class="tabs">
+            <button class="mode-btn active" data-mode="points">Raw Points Mode</button>
+            <button class="mode-btn" data-mode="frost">Frost Value Mode</button>
+        </div>
+    </div>
 
     <main>
         <section id="petGrid" class="grid"></section>
