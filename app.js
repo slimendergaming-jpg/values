@@ -70,7 +70,6 @@ function renderDatabaseView() {
         const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
         card.className = `pet-card ${rarityClass}`;
 
-        // Dynamic File Paths handling complex capitalized strings ("images/Frost Dragon.png")
         const imagePath = `images/${item.name}.png`;
 
         card.innerHTML = `
@@ -129,17 +128,18 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         warningEl.innerText = '';
     }
 
-    // 1. Render all selected active items inside the grid frame rows
+    // 1. Loop through and create active slotted items
     listArray.forEach((item, index) => {
         const slot = document.createElement('div');
-        const itemRarityClass = item.data.rarity.toLowerCase().replace(' ', '-');
-        slot.className = `grid-slot occupied rarity-${itemRarityClass}`;
+        slot.className = 'grid-slot occupied';
+        
+        // Dynamic edge coloring match based on explicit item configurations
         slot.style.borderTop = `4px solid ${getBorderColorByRarity(item.data.rarity)}`;
         
         let itemVal = calculateItemValue(item.data, item.variant, item.fly, item.ride);
         const imagePath = `images/${item.data.name}.png`;
         
-        // Potion Badge Rendering Arrays logic block configuration setup
+        // Formulates customized icon badges inside item grid cards
         let badgesHtml = '';
         if (item.variant === 'neon') badgesHtml += '<span class="mini-pot" style="background:#d69e2e; color:white;">N</span>';
         if (item.variant === 'mega') badgesHtml += '<span class="mini-pot" style="background:#805ad5; color:white;">M</span>';
@@ -162,32 +162,32 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         container.appendChild(slot);
     });
 
-    // 2. Render precisely one solitary single functional add target command tile trigger button element
+    // 2. Append exactly one clean functional addition selector button element
     const plusSlot = document.createElement('div');
     plusSlot.className = 'grid-slot';
     plusSlot.innerHTML = '<span class="slot-plus">+</span>';
     plusSlot.addEventListener('click', () => openModalSelector(sideName));
     container.appendChild(plusSlot);
 
-    // 3. Render empty placeholder items so the grid layout stays at a 3x3 layout minimum
-    let currentTotalTilesRendered = listArray.length + 1; // items + the 1 plus button
-    let placeholderTargetsNeeded = Math.max(9, Math.ceil(currentTotalTilesRendered / 3) * 3) - currentTotalTilesRendered;
+    // 3. Render out dashboard empty slot boxes until reaching a clean 3x3 layout minimum
+    let totalItemsDisplayed = listArray.length + 1; 
+    let trailingPlaceholdersRequired = Math.max(9, Math.ceil(totalItemsDisplayed / 3) * 3) - totalItemsDisplayed;
 
-    for (let i = 0; i < placeholderTargetsNeeded; i++) {
+    for (let i = 0; i < trailingPlaceholdersRequired; i++) {
         const blankSlot = document.createElement('div');
         blankSlot.className = 'grid-slot placeholder';
-        blankSlot.innerHTML = '<span style="color:#2d3240; font-weight:bold;">-</span>';
+        blankSlot.innerHTML = '<span style="color:#222630; font-weight:bold;">-</span>';
         container.appendChild(blankSlot);
     }
 }
 
 function getBorderColorByRarity(rarity) {
     switch(rarity.toLowerCase()) {
-        case 'common': return '#3182ce';
-        case 'uncommon': return '#805ad5';
-        case 'rare': return '#48bb78';
-        case 'ultra-rare': return '#e53e3e';
-        case 'legendary': return '#111111';
+        case 'common': return '#cbd5e0';
+        case 'uncommon': return '#48bb78';
+        case 'rare': return '#3182ce';
+        case 'ultra-rare': return '#805ad5';
+        case 'legendary': return '#dd6b20';
         default: return '#2d3139';
     }
 }
