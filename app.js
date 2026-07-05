@@ -67,13 +67,17 @@ function renderDatabaseView() {
     filtered.forEach(item => {
         const baseValue = calculateItemValue(item, currentVariant, false, false);
         const card = document.createElement('div');
-        
-        // Dynamically add the lowercase rarity name directly into the class list
         const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
         card.className = `pet-card ${rarityClass}`;
 
+        // Dynamic File Paths handling complex capitalized strings ("images/Frost Dragon.png")
+        const imagePath = `images/${item.name}.png`;
+
         card.innerHTML = `
             <span class="rarity-tag">${item.rarity}</span>
+            <div style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                <img src="${imagePath}" alt="${item.name}" style="max-height: 100%; max-width: 120px; object-fit: contain;" onerror="this.src='https://placehold.co/100x100/1a1d24/ffffff?text=?';">
+            </div>
             <h3>${currentVariant !== 'normal' && item.type === 'pet' ? currentVariant.toUpperCase() + ' ' : ''}${item.name}</h3>
             <p>Value: <strong style="color: #48bb78;">${formatDisplayValue(baseValue)}</strong></p>
             <span style="font-size: 0.8rem; color: #a0aec0;">${item.demand} Demand</span>
@@ -125,22 +129,30 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         warningEl.innerText = '';
     }
 
+    // 1. Render all selected active items inside the grid frame rows
     listArray.forEach((item, index) => {
         const slot = document.createElement('div');
-        slot.className = 'grid-slot occupied';
+        const itemRarityClass = item.data.rarity.toLowerCase().replace(' ', '-');
+        slot.className = `grid-slot occupied rarity-${itemRarityClass}`;
+        slot.style.borderTop = `4px solid ${getBorderColorByRarity(item.data.rarity)}`;
         
         let itemVal = calculateItemValue(item.data, item.variant, item.fly, item.ride);
-        let prefix = item.variant !== 'normal' ? item.variant.toUpperCase()[0] + ' ' : '';
+        const imagePath = `images/${item.data.name}.png`;
+        
+        // Potion Badge Rendering Arrays logic block configuration setup
+        let badgesHtml = '';
+        if (item.variant === 'neon') badgesHtml += '<span class="mini-pot" style="background:#d69e2e; color:white;">N</span>';
+        if (item.variant === 'mega') badgesHtml += '<span class="mini-pot" style="background:#805ad5; color:white;">M</span>';
+        if (item.fly) badgesHtml += '<span class="mini-pot" style="background:#3182ce; color:white;">F</span>';
+        if (item.ride) badgesHtml += '<span class="mini-pot" style="background:#e53e3e; color:white;">R</span>';
         
         slot.innerHTML = `
             <div class="slotted-item">
-                <h4>${prefix}${item.data.name}</h4>
+                <img src="${imagePath}" alt="${item.data.name}" style="width: 55px; height: 55px; object-fit: contain; margin-bottom: 2px;" onerror="this.src='https://placehold.co/55x55/1a1d24/ffffff?text=?';">
+                <h4>${item.data.name}</h4>
                 <p>${formatDisplayValue(itemVal)}</p>
             </div>
-            <div class="slot-potions">
-                ${item.fly ? '<span class="mini-pot" style="background:#3182ce">F</span>' : ''}
-                ${item.ride ? '<span class="mini-pot" style="background:#e53e3e">R</span>' : ''}
-            </div>
+            <div class="slot-potions">${badgesHtml}</div>
         `;
         
         slot.addEventListener('click', () => {
@@ -150,11 +162,34 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         container.appendChild(slot);
     });
 
+    // 2. Render precisely one solitary single functional add target command tile trigger button element
     const plusSlot = document.createElement('div');
     plusSlot.className = 'grid-slot';
     plusSlot.innerHTML = '<span class="slot-plus">+</span>';
     plusSlot.addEventListener('click', () => openModalSelector(sideName));
     container.appendChild(plusSlot);
+
+    // 3. Render empty placeholder items so the grid layout stays at a 3x3 layout minimum
+    let currentTotalTilesRendered = listArray.length + 1; // items + the 1 plus button
+    let placeholderTargetsNeeded = Math.max(9, Math.ceil(currentTotalTilesRendered / 3) * 3) - currentTotalTilesRendered;
+
+    for (let i = 0; i < placeholderTargetsNeeded; i++) {
+        const blankSlot = document.createElement('div');
+        blankSlot.className = 'grid-slot placeholder';
+        blankSlot.innerHTML = '<span style="color:#2d3240; font-weight:bold;">-</span>';
+        container.appendChild(blankSlot);
+    }
+}
+
+function getBorderColorByRarity(rarity) {
+    switch(rarity.toLowerCase()) {
+        case 'common': return '#3182ce';
+        case 'uncommon': return '#805ad5';
+        case 'rare': return '#48bb78';
+        case 'ultra-rare': return '#e53e3e';
+        case 'legendary': return '#111111';
+        default: return '#2d3139';
+    }
 }
 
 function openModalSelector(side) {
@@ -202,8 +237,10 @@ function renderModalItemList() {
         let localRide = item.type === 'pet' ? selectedRide : false;
         
         let val = calculateItemValue(item, localVariant, localFly, localRide);
+        const imagePath = `images/${item.name}.png`;
         
         card.innerHTML = `
+            <img src="${imagePath}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 4px;" onerror="this.src='https://placehold.co/40x40/1a1d24/ffffff?text=?';">
             <h5>${item.name}</h5>
             <p>${formatDisplayValue(val)}</p>
             <span class="tag-indicator">${item.type.toUpperCase()} - ${item.rarity}</span>
