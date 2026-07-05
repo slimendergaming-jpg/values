@@ -1,331 +1,8 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, #08090c 0%, #11141a 100%);
-    background-attachment: fixed;
-    color: #e2e8f0;
-    padding: 20px;
-    text-align: center;
-}
-
-header { margin-bottom: 20px; }
-h1 { color: #ffffff; font-size: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-
-/* View Navigation Switching */
-.view-nav {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-.view-btn {
-    background-color: #161920;
-    border: 2px solid #232836;
-    color: #a0aec0;
-    padding: 10px 24px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: all 0.2s;
-}
-.view-btn.active {
-    background-color: #3182ce;
-    color: white;
-    border-color: #4299e1;
-    box-shadow: 0 0 12px rgba(49, 130, 206, 0.4);
-}
-
-/* Control Wrappers */
-.controls-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-
-/* Base Buttons */
-.tab-btn, .variant-btn, .mode-btn {
-    background-color: #161920;
-    border: 1px solid #2d3139;
-    color: #cbd5e0;
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-}
-.tab-btn.active, .variant-btn.active, .mode-btn.active {
-    background-color: #2b6cb0;
-    border-color: #4299e1;
-    color: white;
-}
-
-/* Explicit Potion Toggle Rule Overrides */
-#dbFlyBtn, #dbRideBtn {
-    background-color: #161920;
-    border-color: #2d3139;
-    color: #cbd5e0;
-}
-#dbFlyBtn.active {
-    background-color: #3182ce !important;
-    border-color: #4299e1 !important;
-    color: white !important;
-    box-shadow: 0 0 10px rgba(49, 130, 206, 0.3);
-}
-#dbRideBtn.active {
-    background-color: #e53e3e !important;
-    border-color: #f56565 !important;
-    color: white !important;
-    box-shadow: 0 0 10px rgba(229, 62, 62, 0.3);
-}
-
-#searchBar {
-    width: 90%;
-    max-width: 450px;
-    padding: 12px 20px;
-    border-radius: 25px;
-    border: 1px solid #2d3748;
-    background-color: #12151c;
-    color: #ffffff;
-    font-size: 1rem;
-}
-
-/* Base Hidden Sections */
-.view-section { display: none; }
-.view-section.active { display: block; }
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* --- THE LOCKED CORRECTED RARITY COLORS + CONTRAST GLOWS --- */
-.pet-card {
-    background-color: #14171f;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    border-top: 6px solid #cbd5e0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-.pet-card.common { border-top-color: #3182ce; box-shadow: 0 4px 20px rgba(49, 130, 206, 0.15); }
-.pet-card.uncommon { border-top-color: #805ad5; box-shadow: 0 4px 20px rgba(128, 90, 213, 0.15); }
-.pet-card.rare { border-top-color: #48bb78; box-shadow: 0 4px 20px rgba(72, 187, 120, 0.15); }
-.pet-card.ultra-rare { border-top-color: #e53e3e; box-shadow: 0 4px 20px rgba(229, 62, 62, 0.15); }
-.pet-card.legendary { 
-    border-top-color: #111111; 
-    border-left: 1px solid #1a1a1a;
-    border-right: 1px solid #1a1a1a;
-    border-bottom: 1px solid #1a1a1a;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255,255,255,0.03); 
-}
-
-.rarity-tag {
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
-    color: #a0aec0;
-}
-
-/* --- TRADE PANEL SETUP --- */
-.trade-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background-color: #12151c;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid #1f2430;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.trade-header-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(0,0,0,0.3);
-    padding: 15px 30px;
-    border-radius: 50px;
-    margin-bottom: 25px;
-}
-.trade-total { font-size: 1.8rem; font-weight: bold; }
-.trade-total.gain { color: #48bb78; }
-.trade-total.loss { color: #e53e3e; }
-.trade-total.even { color: #ffffff; }
-
-.trade-status-badge {
-    padding: 8px 24px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #cbd5e0;
-}
-.trade-status-badge.win { background-color: #2f855a; color: white; box-shadow: 0 0 15px rgba(47,133,90,0.4); }
-.trade-status-badge.fair { background-color: #d69e2e; color: white; box-shadow: 0 0 15px rgba(214,158,46,0.4); }
-.trade-status-badge.lose { background-color: #c53030; color: white; box-shadow: 0 0 15px rgba(197,48,48,0.4); }
-
-.trade-flex-grids {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.trade-side {
-    flex: 1;
-    min-width: 340px;
-    max-width: 480px;
-}
-.trade-side h2 { margin-bottom: 5px; font-size: 1.3rem; color: #a0aec0; }
-
-.limit-warning {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #e53e3e;
-    margin-bottom: 10px;
-    min-height: 18px;
-}
-
-/* 3x3 TRACK CONTRAST SCROLLER PANEL */
-.matrix-grid-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    background-color: #0b0d12;
-    padding: 15px 15px 30px 15px;
-    border-radius: 15px;
-    border: 1px solid #1b1e26;
-    box-sizing: border-box;
-    height: 485px; 
-    overflow-y: auto;
-}
-
-.grid-slot {
-    aspect-ratio: 1;
-    background-color: #161922;
-    border: 2px dashed #2d3345;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-sizing: border-box;
-}
-.grid-slot:hover { border-color: #4299e1; background-color: #1c212d; }
-.grid-slot.occupied { border-style: solid; border-color: #232733; background-color: #13161f; }
-.grid-slot.placeholder { border-style: dashed; border-color: #151821; background-color: transparent; cursor: default; }
-.grid-slot.placeholder:hover { background-color: transparent; border-color: #151821; }
-
-.slot-plus { font-size: 2.2rem; color: #3a4256; font-weight: bold; }
-
-.slotted-item {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    box-sizing: border-box;
-}
-.slotted-item h4 { margin: 2px 0; font-size: 0.75rem; text-align: center; color: white; word-break: break-word; }
-.slotted-item p { margin: 2px 0 0 0; font-size: 0.7rem; color: #48bb78; font-weight: bold; }
-
-.slot-potions {
-    position: absolute;
-    bottom: 6px;
-    right: 6px;
-    display: flex;
-    gap: 3px;
-}
-.mini-pot {
-    font-size: 0.65rem;
-    font-weight: bold;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* --- ADD ITEM SELECTION DIALOG MODAL --- */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-    background-color: #11141a;
-    width: 95%;
-    max-width: 640px;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid #222936;
-    height: 85vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    flex-shrink: 0;
-}
-.modal-close {
-    background: none; border: none; color: #a0aec0;
-    font-size: 1.5rem; cursor: pointer;
-}
-.modal-search {
-    width: 100%; padding: 12px; border-radius: 8px;
-    background: #090b0e; border: 1px solid #222936; color: white;
-    margin-bottom: 15px; box-sizing: border-box;
-    flex-shrink: 0;
-}
-
-.potion-selector-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    justify-content: center;
-    background: rgba(0,0,0,0.3);
-    padding: 10px;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-.pot-circle {
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 2px solid transparent; color: white; font-weight: bold;
-    cursor: pointer; display: flex; align-items: center;
-    justify-content: center; font-size: 0.9rem; transition: all 0.15s;
-}
-.pot-circle.btn-f { background-color: #3182ce; }
-.pot-circle.btn-r { background-color: #e53e3e; }
-.pot-circle.btn-d { background-color: #dd6b20; }
-.pot-circle.btn-n { background-color: #d69e2e; color: white !important; }
-.pot-circle.btn-m { background-color: #805ad5; }
-
-.pot-circle.active { border-color: white; transform: scale(1.15); box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-.pot-circle:disabled { opacity: 0.15; cursor: not-allowed; border-color: transparent !important; transform: none !important;}
-
-/* FIXED FLEXIBLE RESPONSIVE MATRIX: REMOVED CRAMPED CARD HEIGHT RUNAWAYS */
+/* MODIFIED: Fixed vertical runaway stretching seen in image_63c521.png */
 .modal-item-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-auto-rows: max-content; /* Force rows to only take up as much height as their content needs */
     gap: 14px;
     overflow-y: auto;
     flex-grow: 1;
@@ -334,26 +11,51 @@ h1 { color: #ffffff; font-size: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     border-radius: 10px;
     border: 1px solid #1c212b;
 }
+
 .modal-item-card {
     background: #141822; 
     border: 1px solid #222936;
     border-radius: 10px; 
-    padding: 12px; 
+    padding: 16px 12px; /* Uniform internal spacing */
     text-align: center;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px; /* Clean, consistent spacing between elements */
     box-sizing: border-box;
     transition: all 0.2s;
 }
+
 .modal-item-card:hover { 
     border-color: #3182ce; 
     background-color: #191e2b;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-.modal-item-card h5 { margin: 6px 0 2px 0; font-size: 0.85rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; color: white; }
-.modal-item-card p { margin: 0 0 4px 0; font-size: 0.8rem; color: #48bb78; font-weight: bold; }
-.modal-item-card .tag-indicator { font-size: 0.65rem; color: #718096; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.modal-item-card h5 { 
+    margin: 4px 0 0 0; 
+    font-size: 0.85rem; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    width: 100%; 
+    color: white; 
+}
+
+.modal-item-card p { 
+    margin: 0; 
+    font-size: 0.8rem; 
+    color: #48bb78; 
+    font-weight: bold; 
+}
+
+.modal-item-card .tag-indicator { 
+    font-size: 0.65rem; 
+    color: #718096; 
+    display: block; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+    margin-top: auto; /* Pushes the type tag cleanly to the bottom of the card */
+}
