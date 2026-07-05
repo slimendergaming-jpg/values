@@ -7,53 +7,72 @@ body {
     text-align: center;
 }
 
-header {
-    margin-bottom: 30px;
+header { margin-bottom: 20px; }
+h1 { color: #ffffff; font-size: 2.2rem; }
+
+/* View Switching Navigation */
+.view-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.view-btn {
+    background-color: #1a1d24;
+    border: 2px solid #2d3139;
+    color: #a0aec0;
+    padding: 10px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+.view-btn.active {
+    background-color: #3182ce;
+    color: white;
+    border-color: #4299e1;
 }
 
-h1 { color: #ffffff; margin-bottom: 20px; }
-
-/* Control Containers */
+/* Control Interfaces */
 .controls-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 30px;
 }
-
-/* Nav Tabs */
-.tabs {
-    display: flex;
-    gap: 10px;
-}
-.tab-btn, .mode-btn {
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.tab-btn, .variant-btn, .mode-btn {
     background-color: #1a1d24;
     border: 1px solid #2d3139;
-    color: #a0aec0;
-    padding: 8px 16px;
+    color: #cbd5e0;
+    padding: 6px 14px;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
+    font-size: 0.9rem;
 }
-.tab-btn.active, .mode-btn.active {
+.tab-btn.active, .variant-btn.active, .mode-btn.active {
     background-color: #2b6cb0;
-    color: #ffffff;
     border-color: #4299e1;
+    color: white;
 }
 
-/* Utility Layout inputs */
 #searchBar {
     width: 90%;
-    max-width: 400px;
-    padding: 12px;
+    max-width: 450px;
+    padding: 12px 20px;
     border-radius: 25px;
     border: 1px solid #2d3748;
     background-color: #1a202c;
     color: #ffffff;
+    font-size: 1rem;
 }
 
-/* Card Rarity Profiles */
+/* Grid Layout Views */
+.view-section { display: none; }
+.view-section.active { display: block; }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -61,14 +80,15 @@ h1 { color: #ffffff; margin-bottom: 20px; }
     max-width: 1200px;
     margin: 0 auto;
 }
+
+/* Dynamic Rarity Profiles */
 .pet-card {
     background-color: #1a1d24;
     border-radius: 12px;
-    padding: 15px;
+    padding: 16px;
+    text-align: center;
     border-top: 6px solid #cbd5e0;
 }
-
-/* Custom Rarity Colors Assigned */
 .pet-card.common { border-top-color: #3182ce; }       /* Blue */
 .pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
 .pet-card.rare { border-top-color: #48bb78; }         /* Darker Lime Green */
@@ -77,8 +97,186 @@ h1 { color: #ffffff; margin-bottom: 20px; }
 
 .rarity-tag {
     font-size: 0.75rem;
-    text-transform: uppercase;
     font-weight: bold;
+    text-transform: uppercase;
     display: block;
     margin-bottom: 8px;
+    color: #a0aec0;
 }
+
+/* --- TRADE CALCULATOR LOOKS --- */
+.trade-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #161920;
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid #232733;
+}
+.trade-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    padding: 15px 30px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+}
+.trade-total { font-size: 1.8rem; font-weight: bold; color: #ffffff; }
+.trade-status-badge {
+    background-color: #2d3748;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #cbd5e0;
+}
+.trade-status-badge.win { background-color: #2f855a; color: white; }
+.trade-status-badge.fair { background-color: #d69e2e; color: white; }
+.trade-status-badge.lose { background-color: #c53030; color: white; }
+
+.trade-flex-grids {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+.trade-side {
+    flex: 1;
+    min-width: 300px;
+    max-width: 360px;
+}
+.trade-side h2 { margin-bottom: 15px; font-size: 1.3rem; color: #a0aec0; }
+
+/* 3x3 Grid Matrix slots */
+.matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background-color: #111318;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #222630;
+}
+.grid-slot {
+    aspect-ratio: 1;
+    background-color: #1c202a;
+    border: 2px dashed #3a4256;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+}
+.grid-slot:hover { border-color: #4299e1; background-color: #222836; }
+.grid-slot.occupied { border-style: solid; border-color: #2d3139; background-color: #1a1d24; }
+
+.slot-plus { font-size: 2rem; color: #4a5568; }
+
+.slotted-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.slotted-item h4 { margin: 4px 0 0 0; font-size: 0.75rem; text-align: center; }
+.slotted-item p { margin: 2px 0 0 0; font-size: 0.7rem; color: #48bb78; font-weight: bold; }
+
+.slot-potions {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    display: flex;
+    gap: 2px;
+}
+.mini-pot {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: white;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- POPUP WINDOW MODAL --- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+    background-color: #161920;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid #2d3240;
+    max-height: 85vh;
+    overflow-y: auto;
+    text-align: left;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.modal-close {
+    background: none; border: none; color: #a0aec0;
+    font-size: 1.5rem; cursor: pointer;
+}
+.modal-search {
+    width: 100%; padding: 10px; border-radius: 8px;
+    background: #111318; border: 1px solid #2d3240; color: white;
+    margin-bottom: 15px; box-sizing: border-box;
+}
+
+/* Potion Selector Button Circles */
+.potion-selector-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.pot-circle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid transparent; color: white; font-weight: bold;
+    cursor: pointer; display: flex; align-items: center;
+    justify-content: center; font-size: 0.9rem; transition: all 0.15s;
+}
+.pot-circle.btn-f { background-color: #3182ce; } /* Fly Blue */
+.pot-circle.btn-r { background-color: #e53e3e; } /* Ride Red */
+.pot-circle.btn-d { background-color: #dd6b20; } /* Normal Orange */
+.pot-circle.btn-n { background-color: #d69e2e; color: black; } /* Neon Yellow */
+.pot-circle.btn-m { background-color: #805ad5; } /* Mega Purple */
+
+.pot-circle.active { border-color: white; transform: scale(1.1); }
+
+.modal-item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+}
+.modal-item-card {
+    background: #1c202a; border: 1px solid #2d3240;
+    border-radius: 10px; padding: 10px; text-align: center;
+    cursor: pointer;
+}
+.modal-item-card:hover { border-color: #3182ce; }
+.modal-item-card h5 { margin: 5px 0 2px 0; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-item-card p { margin: 0; font-size: 0.75rem; color: #48bb78; }
