@@ -6,9 +6,9 @@
     "type": "pet",
     "isOld": true,
     "values": {
-      "normal": 150.0,
-      "neon": 600.0,
-      "mega": 2400.0
+      "normal": 400.0,
+      "neon": 1600.0,
+      "mega": 6400.0
     },
     "demand": "High",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Shadow+Dragon"
@@ -46,33 +46,22 @@
     "rarity": "Legendary",
     "type": "pet",
     "values": {
-      "normal": 70.0,
-      "neon": 280.0,
-      "mega": 1120.0
+      "normal": 75.0,
+      "neon": 300.0,
+      "mega": 1200.0
     },
     "demand": "High",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Parrot"
   },
   {
     "id": "tombstone",
-    "name": "Tombstone Ghost Toy",
-    "rarity": "Legendary",
+    "name": "Tombstone Ghostify",
+    "rarity": "Rare",
     "type": "toy",
     "values": {
-      "normal": 70.0
+      "normal": 75.0
     },
     "demand": "Medium",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Tombstone"
-  },
-  {
-    "id": "candy_cannon",
-    "name": "Candy Cannon",
-    "rarity": "Legendary",
-    "type": "toy",
-    "values": {
-      "normal": 2400.0
-    },
-    "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Candy+Cannon"
   }
 ]
