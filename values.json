@@ -8,7 +8,7 @@
     "values": {
       "normal": 400.0,
       "neon": 1600.0,
-      "mega": 2400.0
+      "mega": 6400.0
     },
     "demand": "High"
   },
@@ -43,9 +43,9 @@
     "rarity": "Legendary",
     "type": "toy",
     "values": {
-      "normal": 2400.0
+      "normal": 6400.0
     },
-    "demand": "High"
+    "demand": "Medium"
   },
   {
     "id": "tombstone",
@@ -57,5 +57,4 @@
     },
     "demand": "Medium"
   }
-  
 ]
