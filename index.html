@@ -12,37 +12,80 @@
         <h1>Adopt Me Trading Values</h1>
     </header>
 
-    <div class="controls-container">
-        <!-- Search bar -->
-        <input type="text" id="searchBar" placeholder="Search values database...">
-
-        <!-- Item Category Navigation Filters -->
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="all">All Items</button>
-            <button class="tab-btn" data-tab="pet">Pets</button>
-            <button class="tab-btn" data-tab="toy">Toys</button>
-            <button class="tab-btn" data-tab="food">Food</button>
-            <button class="tab-btn" data-tab="stroller">Strollers</button>
-            <button class="tab-btn" data-tab="gift">Gifts</button>
-        </div>
-
-        <!-- Multiplier Variant Controls -->
-        <div class="tabs">
-            <button class="variant-btn active" data-variant="normal">Normal</button>
-            <button class="variant-btn" data-variant="neon">Neon</button>
-            <button class="variant-btn" data-variant="mega">Mega Neon</button>
-        </div>
-
-        <!-- Value Mode Math Configuration Toggles -->
-        <div class="tabs">
-            <button class="mode-btn active" data-mode="points">Raw Points Mode</button>
-            <button class="mode-btn" data-mode="frost">Frost Value Mode</button>
-        </div>
+    <div class="view-nav">
+        <button id="btnViewDb" class="view-btn active">View Database</button>
+        <button id="btnViewCalc" class="view-btn">Trade Calculator</button>
     </div>
 
-    <main>
-        <section id="petGrid" class="grid"></section>
-    </main>
+    <div style="margin-bottom: 25px;" class="tabs">
+        <button class="mode-btn active" data-mode="points">Raw Points Mode</button>
+        <button class="mode-btn" data-mode="frost">Frost Value Mode</button>
+    </div>
+
+    <section id="dbSection" class="view-section active">
+        <div class="controls-container">
+            <input type="text" id="searchBar" placeholder="Search values database...">
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="all">All Items</button>
+                <button class="tab-btn" data-tab="pet">Pets</button>
+                <button class="tab-btn" data-tab="toy">Toys</button>
+                <button class="tab-btn" data-tab="food">Food</button>
+                <button class="tab-btn" data-tab="stroller">Strollers</button>
+                <button class="tab-btn" data-tab="gift">Gifts</button>
+            </div>
+
+            <div class="tabs">
+                <button class="variant-btn active" data-variant="normal">Normal</button>
+                <button class="variant-btn" data-variant="neon">Neon</button>
+                <button class="variant-btn" data-variant="mega">Mega Neon</button>
+            </div>
+        </div>
+        <div id="petGrid" class="grid"></section>
+    </section>
+
+    <section id="calcSection" class="view-section">
+        <div class="trade-container">
+            <div class="trade-header-bar">
+                <div>
+                    <span style="font-size: 0.9rem; color: #a0aec0; display:block;">Difference</span>
+                    <div id="tradeBalance" class="trade-total" style="color: #e53e3e;">0</div>
+                </div>
+                <div id="statusBadge" class="trade-status-badge fair">FAIR</div>
+            </div>
+
+            <div class="trade-flex-grids">
+                <div class="trade-side">
+                    <h2>Your Offer (<span id="yourTotal">0</span>)</h2>
+                    <div id="yourSlots" class="matrix-grid"></div>
+                </div>
+                <div class="trade-side">
+                    <h2>Their Offer (<span id="theirTotal">0</span>)</h2>
+                    <div id="theirSlots" class="matrix-grid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Add Item to Trade</h3>
+                <button id="modalClose" class="modal-close">&times;</button>
+            </div>
+            
+            <div class="potion-selector-row">
+                <button id="potD" class="pot-circle btn-d active" data-var="normal">D</button>
+                <button id="potN" class="pot-circle btn-n" data-var="neon">N</button>
+                <button id="potM" class="pot-circle btn-m" data-var="mega">M</button>
+                <button id="potF" class="pot-circle btn-f">F</button>
+                <button id="potR" class="pot-circle btn-r">R</button>
+            </div>
+
+            <input type="text" id="modalSearch" class="modal-search" placeholder="Search item list...">
+            <div id="modalItemList" class="modal-item-list"></div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
