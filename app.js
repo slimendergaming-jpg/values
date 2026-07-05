@@ -4,12 +4,10 @@ let currentVariant = 'normal';
 let valueMode = 'points';
 let activeView = 'database';
 
-// Dynamic Trades Lists Setup
 let yourOfferList = [];
 let theirOfferList = [];
 let activeTargetSide = 'your';
 
-// Modal Modifications Selection Configuration
 let selectedVariant = 'normal'; 
 let selectedFly = false;
 let selectedRide = false;
@@ -31,7 +29,6 @@ function calculateItemValue(item, variant, fly, ride) {
     
     let value = item.values[variant] || item.values['normal'] || 0;
     
-    // Non-pet asset control filter safeguards
     if (item.type !== 'pet') {
         fly = false;
         ride = false;
@@ -40,7 +37,6 @@ function calculateItemValue(item, variant, fly, ride) {
     if (fly) value += 8;
     if (ride) value += 5;
     
-    // Tag Rule: Old pet check (decrease total item value by 10% if potioned)
     if (item.type === 'pet' && item.isOld && (fly || ride)) {
         value = value * 0.90;
     }
@@ -71,7 +67,10 @@ function renderDatabaseView() {
     filtered.forEach(item => {
         const baseValue = calculateItemValue(item, currentVariant, false, false);
         const card = document.createElement('div');
-        card.className = `pet-card legendary`;
+        
+        // Dynamically add the lowercase rarity name directly into the class list
+        const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
+        card.className = `pet-card ${rarityClass}`;
 
         card.innerHTML = `
             <span class="rarity-tag">${item.rarity}</span>
@@ -120,14 +119,12 @@ function renderSideList(containerId, listArray, sideName, warningId) {
     const warningEl = document.getElementById(warningId);
     container.innerHTML = '';
     
-    // Display limits message tags if 18 item boundaries are breached
     if (listArray.length > 18) {
         warningEl.innerText = `Limit reached ${listArray.length}/18 - MAX TRADE`;
     } else {
         warningEl.innerText = '';
     }
 
-    // Render items currently inside the list
     listArray.forEach((item, index) => {
         const slot = document.createElement('div');
         slot.className = 'grid-slot occupied';
@@ -153,7 +150,6 @@ function renderSideList(containerId, listArray, sideName, warningId) {
         container.appendChild(slot);
     });
 
-    // Singular interactive trailing append button
     const plusSlot = document.createElement('div');
     plusSlot.className = 'grid-slot';
     plusSlot.innerHTML = '<span class="slot-plus">+</span>';
@@ -163,12 +159,11 @@ function renderSideList(containerId, listArray, sideName, warningId) {
 
 function openModalSelector(side) {
     activeTargetSide = side;
-    
     selectedVariant = 'normal';
     selectedFly = false;
     selectedRide = false;
     
-    updateModalUIPots('pet'); // Default setup configuration
+    updateModalUIPots('pet');
     document.getElementById('modalOverlay').classList.add('active');
     renderModalItemList();
 }
@@ -176,7 +171,6 @@ function openModalSelector(side) {
 function updateModalUIPots(itemType) {
     const isPet = (itemType === 'pet');
     
-    // Toggle variation switches visibility/interactivity criteria rules
     document.querySelectorAll('.pot-circle[data-var]').forEach(b => {
         b.disabled = !isPet;
         b.classList.toggle('active', isPet && b.dataset.var === selectedVariant);
@@ -212,7 +206,7 @@ function renderModalItemList() {
         card.innerHTML = `
             <h5>${item.name}</h5>
             <p>${formatDisplayValue(val)}</p>
-            <span class="tag-indicator">${item.type.toUpperCase()}</span>
+            <span class="tag-indicator">${item.type.toUpperCase()} - ${item.rarity}</span>
         `;
         
         card.addEventListener('click', () => {
@@ -285,7 +279,6 @@ function setupFrameworkEvents() {
     });
     document.getElementById('modalSearch').addEventListener('input', renderModalItemList);
 
-    // Modal Modifiers Buttons Event Wireframe Hooks
     document.getElementById('potD').addEventListener('click', () => { selectedVariant = 'normal'; updateModalUIPots('pet'); renderModalItemList(); });
     document.getElementById('potN').addEventListener('click', () => { selectedVariant = 'neon'; updateModalUIPots('pet'); renderModalItemList(); });
     document.getElementById('potM').addEventListener('click', () => { selectedVariant = 'mega'; updateModalUIPots('pet'); renderModalItemList(); });
