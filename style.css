@@ -90,12 +90,11 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-top: 6px solid #cbd5e0;
 }
 
-/* Rarity classes applied dynamically via javascript */
-.pet-card.common { border-top-color: #3182ce; }       /* Blue */
-.pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
-.pet-card.rare { border-top-color: #48bb78; }         /* Darker Lime Green */
-.pet-card.ultra-rare { border-top-color: #e53e3e; }   /* Red */
-.pet-card.legendary { border-top-color: #111111; }    /* Black */
+.pet-card.common { border-top-color: #cbd5e0; }
+.pet-card.uncommon { border-top-color: #48bb78; }
+.pet-card.rare { border-top-color: #3182ce; }
+.pet-card.ultra-rare { border-top-color: #805ad5; }
+.pet-card.legendary { border-top-color: #dd6b20; }
 
 .rarity-tag {
     font-size: 0.75rem;
@@ -158,7 +157,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     min-height: 18px;
 }
 
-/* Perfect locked size scrolling framework */
+/* Fixed size 3x3 Scrolling Panel Layout Window */
 .matrix-grid-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -168,7 +167,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-radius: 15px;
     border: 1px solid #222630;
     box-sizing: border-box;
-    height: 380px; /* Locked frame height for 3x3 layout grid rows */
+    height: 380px;
     overflow-y: auto;
 }
 
@@ -183,6 +182,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     position: relative;
     cursor: pointer;
     transition: all 0.2s;
+    box-sizing: border-box;
 }
 .grid-slot:hover { border-color: #4299e1; background-color: #222836; }
 .grid-slot.occupied { border-style: solid; border-color: #2d3139; background-color: #1a1d24; }
@@ -222,7 +222,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     justify-content: center;
 }
 
-/* --- ADD ITEM SELECTION DIALOG WINDOW --- */
+/* --- ADD ITEM DIALOG POPUP --- */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -277,7 +277,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
 .pot-circle.btn-f { background-color: #3182ce; }
 .pot-circle.btn-r { background-color: #e53e3e; }
 .pot-circle.btn-d { background-color: #dd6b20; }
-.pot-circle.btn-n { background-color: #d69e2e; color: white !important; } /* White N Text Override */
+.pot-circle.btn-n { background-color: #d69e2e; color: white !important; }
 .pot-circle.btn-m { background-color: #805ad5; }
 
 .pot-circle.active { border-color: white; transform: scale(1.15); }
