@@ -35,10 +35,17 @@
                 <button class="tab-btn" data-tab="gift">Gifts</button>
             </div>
 
-            <div class="tabs">
-                <button class="variant-btn active" data-variant="normal">Normal</button>
-                <button class="variant-btn" data-variant="neon">Neon</button>
-                <button class="variant-btn" data-variant="mega">Mega Neon</button>
+            <div style="display:flex; gap:20px; align-items:center; margin-top:5px;">
+                <div class="tabs">
+                    <button class="variant-btn active" data-variant="normal">Normal</button>
+                    <button class="variant-btn" data-variant="neon">Neon</button>
+                    <button class="variant-btn" data-variant="mega">Mega Neon</button>
+                </div>
+                <div style="width:2px; height:20px; background:#2d3139;"></div>
+                <div class="tabs">
+                    <button id="dbFlyBtn" class="tab-btn active" style="background:#3182ce; color:white;">Fly (F)</button>
+                    <button id="dbRideBtn" class="tab-btn active" style="background:#e53e3e; color:white;">Ride (R)</button>
+                </div>
             </div>
         </div>
         <div id="petGrid" class="grid"></div>
@@ -49,7 +56,7 @@
             <div class="trade-header-bar">
                 <div>
                     <span style="font-size: 0.9rem; color: #a0aec0; display:block;">Difference</span>
-                    <div id="tradeBalance" class="trade-total" style="color: #e53e3e;">0</div>
+                    <div id="tradeBalance" class="trade-total even">0</div>
                 </div>
                 <div id="statusBadge" class="trade-status-badge fair">FAIR</div>
             </div>
