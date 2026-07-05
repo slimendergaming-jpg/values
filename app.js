@@ -77,7 +77,6 @@ function renderDatabaseView() {
     });
 
     filtered.forEach(item => {
-        // Appends real-time database check calculations
         const baseValue = calculateItemValue(item, currentVariant, dbFly, dbRide);
         const card = document.createElement('div');
         const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
@@ -113,20 +112,19 @@ function renderTradeEngine() {
     
     let diff = yourTotal - theirTotal;
     
-    // --- SMART BALANCE DELTA TRACKING LAYOUTS ---
     balanceDiv.className = 'trade-total';
     if (yourTotal === 0 && theirTotal === 0) {
         balanceDiv.innerText = "0";
-        balanceDiv.classList.add('even');
+        balanceDiv.className = "trade-total even";
     } else if (diff > 0) {
         balanceDiv.innerText = `+${formatDisplayValue(diff)}`;
-        balanceDiv.classList.add('gain');
+        balanceDiv.className = "trade-total gain";
     } else if (diff < 0) {
         balanceDiv.innerText = `-${formatDisplayValue(Math.abs(diff))}`;
-        balanceDiv.classList.add('loss');
+        balanceDiv.className = "trade-total loss";
     } else {
         balanceDiv.innerText = "0";
-        balanceDiv.classList.add('even');
+        balanceDiv.className = "trade-total even";
     }
     
     badge.className = 'trade-status-badge';
@@ -207,11 +205,11 @@ function renderSideList(containerId, listArray, sideName, warningId) {
 
 function getBorderColorByRarity(rarity) {
     switch(rarity.toLowerCase()) {
-        case 'common': return '#3182ce';
-        case 'uncommon': return '#805ad5';
-        case 'rare': return '#48bb78';
-        case 'ultra-rare': return '#e53e3e';
-        case 'legendary': return '#111111';
+        case 'common': return '#3182ce';       // Blue
+        case 'uncommon': return '#805ad5';     // Purple
+        case 'rare': return '#48bb78';         // Green
+        case 'ultra-rare': return '#e53e3e';   // Red
+        case 'legendary': return '#111111';    // Black
         default: return '#2d3139';
     }
 }
@@ -336,7 +334,6 @@ function setupFrameworkEvents() {
         });
     });
 
-    // Main Catalog Database potion controls events configuration hooks
     document.getElementById('dbFlyBtn').addEventListener('click', (e) => {
         dbFly = !dbFly;
         e.target.classList.toggle('active', dbFly);
