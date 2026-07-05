@@ -4,14 +4,13 @@ let currentVariant = 'normal';
 let valueMode = 'points';
 let activeView = 'database';
 
-// Trade State Management Tracking
-let yourOfferSlots = Array(9).fill(null);
-let theirOfferSlots = Array(9).fill(null);
+// Dynamic Trades Lists Setup
+let yourOfferList = [];
+let theirOfferList = [];
 let activeTargetSide = 'your';
-let activeTargetIndex = 0;
 
-// Chosen Modal Custom Potions State Configuration
-let selectedVariant = 'normal'; // normal, neon, mega
+// Modal Modifications Selection Configuration
+let selectedVariant = 'normal'; 
 let selectedFly = false;
 let selectedRide = false;
 
@@ -27,18 +26,22 @@ async function loadPetData() {
     }
 }
 
-// Calculate precise pricing value dynamically with custom potion mod rules
 function calculateItemValue(item, variant, fly, ride) {
     if (!item || !item.values) return 0;
     
     let value = item.values[variant] || item.values['normal'] || 0;
     
-    // Custom logic add-ons (+8 for fly, +5 for ride)
+    // Non-pet asset control filter safeguards
+    if (item.type !== 'pet') {
+        fly = false;
+        ride = false;
+    }
+    
     if (fly) value += 8;
     if (ride) value += 5;
     
-    // Rule: Old tag check (Frost/Shadow). Decreases value by 10% if fly or ride is applied
-    if (item.isOld && (fly || ride)) {
+    // Tag Rule: Old pet check (decrease total item value by 10% if potioned)
+    if (item.type === 'pet' && item.isOld && (fly || ride)) {
         value = value * 0.90;
     }
     
@@ -68,8 +71,7 @@ function renderDatabaseView() {
     filtered.forEach(item => {
         const baseValue = calculateItemValue(item, currentVariant, false, false);
         const card = document.createElement('div');
-        const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
-        card.className = `pet-card ${rarityClass}`;
+        card.className = `pet-card legendary`;
 
         card.innerHTML = `
             <span class="rarity-tag">${item.rarity}</span>
@@ -82,11 +84,11 @@ function renderDatabaseView() {
 }
 
 function renderTradeEngine() {
-    renderSideSlots('yourSlots', yourOfferSlots, 'your');
-    renderSideSlots('theirSlots', theirOfferSlots, 'their');
+    renderSideList('yourSlots', yourOfferList, 'your', 'yourWarning');
+    renderSideList('theirSlots', theirOfferList, 'their', 'theirWarning');
     
-    let yourTotal = yourOfferSlots.reduce((sum, item) => sum + (item ? calculateItemValue(item.data, item.variant, item.fly, item.ride) : 0), 0);
-    let theirTotal = theirOfferSlots.reduce((sum, item) => sum + (item ? calculateItemValue(item.data, item.variant, item.fly, item.ride) : 0), 0);
+    let yourTotal = yourOfferList.reduce((sum, item) => sum + calculateItemValue(item.data, item.variant, item.fly, item.ride), 0);
+    let theirTotal = theirOfferList.reduce((sum, item) => sum + calculateItemValue(item.data, item.variant, item.fly, item.ride), 0);
     
     document.getElementById('yourTotal').innerText = formatDisplayValue(yourTotal);
     document.getElementById('theirTotal').innerText = formatDisplayValue(theirTotal);
@@ -97,7 +99,6 @@ function renderTradeEngine() {
     let diff = yourTotal - theirTotal;
     balanceDiv.innerText = formatDisplayValue(Math.abs(diff));
     
-    // Status metrics criteria
     badge.className = 'trade-status-badge';
     if (yourTotal === 0 && theirTotal === 0) {
         badge.innerText = 'FAIR';
@@ -106,7 +107,7 @@ function renderTradeEngine() {
         badge.innerText = 'FAIR';
         badge.classList.add('fair');
     } else if (yourTotal > theirTotal) {
-        badge.innerText = 'LOSE'; // Giving more than getting
+        badge.innerText = 'LOSE';
         badge.classList.add('lose');
     } else {
         badge.innerText = 'WIN';
@@ -114,62 +115,81 @@ function renderTradeEngine() {
     }
 }
 
-function renderSideSlots(containerId, slotsArray, sideName) {
+function renderSideList(containerId, listArray, sideName, warningId) {
     const container = document.getElementById(containerId);
+    const warningEl = document.getElementById(warningId);
     container.innerHTML = '';
     
-    slotsArray.forEach((item, index) => {
+    // Display limits message tags if 18 item boundaries are breached
+    if (listArray.length > 18) {
+        warningEl.innerText = `Limit reached ${listArray.length}/18 - MAX TRADE`;
+    } else {
+        warningEl.innerText = '';
+    }
+
+    // Render items currently inside the list
+    listArray.forEach((item, index) => {
         const slot = document.createElement('div');
-        slot.className = 'grid-slot';
+        slot.className = 'grid-slot occupied';
         
-        if (item) {
-            slot.classList.add('occupied');
-            let itemVal = calculateItemValue(item.data, item.variant, item.fly, item.ride);
-            let prefix = item.variant !== 'normal' ? item.variant.toUpperCase()[0] + ' ' : '';
-            
-            slot.innerHTML = `
-                <div class="slotted-item">
-                    <h4>${prefix}${item.data.name}</h4>
-                    <p>${formatDisplayValue(itemVal)}</p>
-                </div>
-                <div class="slot-potions">
-                    ${item.fly ? '<span class="mini-pot" style="background:#3182ce">F</span>' : ''}
-                    ${item.ride ? '<span class="mini-pot" style="background:#e53e3e">R</span>' : ''}
-                </div>
-            `;
-            // Click occupied slot to remove item
-            slot.addEventListener('click', () => {
-                slotsArray[index] = null;
-                renderTradeEngine();
-            });
-        } else {
-            slot.innerHTML = '<span class="slot-plus">+</span>';
-            slot.addEventListener('click', () => openModalSelector(sideName, index));
-        }
+        let itemVal = calculateItemValue(item.data, item.variant, item.fly, item.ride);
+        let prefix = item.variant !== 'normal' ? item.variant.toUpperCase()[0] + ' ' : '';
+        
+        slot.innerHTML = `
+            <div class="slotted-item">
+                <h4>${prefix}${item.data.name}</h4>
+                <p>${formatDisplayValue(itemVal)}</p>
+            </div>
+            <div class="slot-potions">
+                ${item.fly ? '<span class="mini-pot" style="background:#3182ce">F</span>' : ''}
+                ${item.ride ? '<span class="mini-pot" style="background:#e53e3e">R</span>' : ''}
+            </div>
+        `;
+        
+        slot.addEventListener('click', () => {
+            listArray.splice(index, 1);
+            renderTradeEngine();
+        });
         container.appendChild(slot);
     });
+
+    // Singular interactive trailing append button
+    const plusSlot = document.createElement('div');
+    plusSlot.className = 'grid-slot';
+    plusSlot.innerHTML = '<span class="slot-plus">+</span>';
+    plusSlot.addEventListener('click', () => openModalSelector(sideName));
+    container.appendChild(plusSlot);
 }
 
-function openModalSelector(side, index) {
+function openModalSelector(side) {
     activeTargetSide = side;
-    activeTargetIndex = index;
     
-    // Reset selected conditions values
     selectedVariant = 'normal';
     selectedFly = false;
     selectedRide = false;
-    updateModalUIPots();
     
+    updateModalUIPots('pet'); // Default setup configuration
     document.getElementById('modalOverlay').classList.add('active');
     renderModalItemList();
 }
 
-function updateModalUIPots() {
+function updateModalUIPots(itemType) {
+    const isPet = (itemType === 'pet');
+    
+    // Toggle variation switches visibility/interactivity criteria rules
     document.querySelectorAll('.pot-circle[data-var]').forEach(b => {
-        b.classList.toggle('active', b.dataset.var === selectedVariant);
+        b.disabled = !isPet;
+        b.classList.toggle('active', isPet && b.dataset.var === selectedVariant);
     });
-    document.getElementById('potF').classList.toggle('active', selectedFly);
-    document.getElementById('potR').classList.toggle('active', selectedRide);
+    
+    const fBtn = document.getElementById('potF');
+    const rBtn = document.getElementById('potR');
+    
+    fBtn.disabled = !isPet;
+    rBtn.disabled = !isPet;
+    
+    fBtn.classList.toggle('active', isPet && selectedFly);
+    rBtn.classList.toggle('active', isPet && selectedRide);
 }
 
 function renderModalItemList() {
@@ -182,26 +202,28 @@ function renderModalItemList() {
     filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = 'modal-item-card';
-        let val = calculateItemValue(item, selectedVariant, selectedFly, selectedRide);
+        
+        let localVariant = item.type === 'pet' ? selectedVariant : 'normal';
+        let localFly = item.type === 'pet' ? selectedFly : false;
+        let localRide = item.type === 'pet' ? selectedRide : false;
+        
+        let val = calculateItemValue(item, localVariant, localFly, localRide);
         
         card.innerHTML = `
             <h5>${item.name}</h5>
             <p>${formatDisplayValue(val)}</p>
+            <span class="tag-indicator">${item.type.toUpperCase()}</span>
         `;
         
         card.addEventListener('click', () => {
-            const configuredPackage = {
-                data: item,
-                variant: selectedVariant,
-                fly: selectedFly,
-                ride: selectedRide
-            };
+            const targetList = (activeTargetSide === 'your') ? yourOfferList : theirOfferList;
             
-            if (activeTargetSide === 'your') {
-                yourOfferSlots[activeTargetIndex] = configuredPackage;
-            } else {
-                theirOfferSlots[activeTargetIndex] = configuredPackage;
-            }
+            targetList.push({
+                data: item,
+                variant: localVariant,
+                fly: localFly,
+                ride: localRide
+            });
             
             document.getElementById('modalOverlay').classList.remove('active');
             renderTradeEngine();
@@ -212,7 +234,6 @@ function renderModalItemList() {
 }
 
 function setupFrameworkEvents() {
-    // Top-Level Navigation View Switchers
     document.getElementById('btnViewDb').addEventListener('click', () => {
         activeView = 'database';
         document.getElementById('btnViewDb').classList.add('active');
@@ -231,7 +252,6 @@ function setupFrameworkEvents() {
         renderTradeEngine();
     });
 
-    // Database Filters configuration
     document.getElementById('searchBar').addEventListener('input', renderDatabaseView);
     document.querySelectorAll('.tab-btn').forEach(b => {
         b.addEventListener('click', (e) => {
@@ -250,7 +270,6 @@ function setupFrameworkEvents() {
         });
     });
 
-    // Universal Global Math Mode Configuration Toggles
     document.querySelectorAll('.mode-btn').forEach(b => {
         b.addEventListener('click', (e) => {
             document.querySelectorAll('.mode-btn').forEach(m => m.classList.remove('active'));
@@ -261,18 +280,17 @@ function setupFrameworkEvents() {
         });
     });
 
-    // Modal Events listeners
     document.getElementById('modalClose').addEventListener('click', () => {
         document.getElementById('modalOverlay').classList.remove('active');
     });
     document.getElementById('modalSearch').addEventListener('input', renderModalItemList);
 
-    // Modal Potion Switch Controls
-    document.getElementById('potD').addEventListener('click', () => { selectedVariant = 'normal'; updateModalUIPots(); renderModalItemList(); });
-    document.getElementById('potN').addEventListener('click', () => { selectedVariant = 'neon'; updateModalUIPots(); renderModalItemList(); });
-    document.getElementById('potM').addEventListener('click', () => { selectedVariant = 'mega'; updateModalUIPots(); renderModalItemList(); });
-    document.getElementById('potF').addEventListener('click', () => { selectedFly = !selectedFly; updateModalUIPots(); renderModalItemList(); });
-    document.getElementById('potR').addEventListener('click', () => { selectedRide = !selectedRide; updateModalUIPots(); renderModalItemList(); });
+    // Modal Modifiers Buttons Event Wireframe Hooks
+    document.getElementById('potD').addEventListener('click', () => { selectedVariant = 'normal'; updateModalUIPots('pet'); renderModalItemList(); });
+    document.getElementById('potN').addEventListener('click', () => { selectedVariant = 'neon'; updateModalUIPots('pet'); renderModalItemList(); });
+    document.getElementById('potM').addEventListener('click', () => { selectedVariant = 'mega'; updateModalUIPots('pet'); renderModalItemList(); });
+    document.getElementById('potF').addEventListener('click', () => { selectedFly = !selectedFly; updateModalUIPots('pet'); renderModalItemList(); });
+    document.getElementById('potR').addEventListener('click', () => { selectedRide = !selectedRide; updateModalUIPots('pet'); renderModalItemList(); });
 }
 
 loadPetData();
