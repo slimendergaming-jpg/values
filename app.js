@@ -5,7 +5,6 @@ let currentVariant = 'normal';
 let valueMode = 'points';
 let activeView = 'database';
 
-// Global database screen filter state parameters
 let dbFly = true; 
 let dbRide = true;
 
@@ -110,7 +109,6 @@ function renderTradeEngine() {
     const balanceDiv = document.getElementById('tradeBalance');
     const badge = document.getElementById('statusBadge');
     
-    // Inverted layout calculations: Win means getting more value than giving
     let diff = theirTotal - yourTotal;
     
     balanceDiv.className = 'trade-total';
@@ -341,7 +339,6 @@ function setupFrameworkEvents() {
         });
     });
 
-    // FIXED: Clean value handling execution that doesn't scrub tabs
     document.getElementById('dbFlyBtn').addEventListener('click', (e) => {
         dbFly = !dbFly;
         e.target.classList.toggle('active', dbFly);
