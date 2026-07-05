@@ -81,7 +81,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     margin: 0 auto;
 }
 
-/* Cards & Precision Rarity Profiles */
+/* --- YOUR ORIGINAL RARITY COLORS --- */
 .pet-card {
     background-color: #1a1d24;
     border-radius: 12px;
@@ -89,12 +89,11 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     text-align: center;
     border-top: 6px solid #cbd5e0;
 }
-
-.pet-card.common { border-top-color: #cbd5e0; }
-.pet-card.uncommon { border-top-color: #48bb78; }
-.pet-card.rare { border-top-color: #3182ce; }
-.pet-card.ultra-rare { border-top-color: #805ad5; }
-.pet-card.legendary { border-top-color: #dd6b20; }
+.pet-card.common { border-top-color: #3182ce; }       /* Blue */
+.pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
+.pet-card.rare { border-top-color: #48bb78; }         /* Green */
+.pet-card.ultra-rare { border-top-color: #e53e3e; }   /* Red */
+.pet-card.legendary { border-top-color: #111111; }    /* Black */
 
 .rarity-tag {
     font-size: 0.75rem;
@@ -123,7 +122,11 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-radius: 50px;
     margin-bottom: 25px;
 }
-.trade-total { font-size: 1.8rem; font-weight: bold; color: #ffffff; }
+.trade-total { font-size: 1.8rem; font-weight: bold; }
+.trade-total.gain { color: #48bb78; }
+.trade-total.loss { color: #e53e3e; }
+.trade-total.even { color: #ffffff; }
+
 .trade-status-badge {
     background-color: #2d3748;
     padding: 8px 24px;
@@ -157,17 +160,17 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     min-height: 18px;
 }
 
-/* FIXED SCROLL CONTAINER: Increased to 440px so all 3 rows fit beautifully without cutoffs */
+/* EXPANDED HEIGHT: Increased container box profile to 460px with generous bottom padding */
 .matrix-grid-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     background-color: #111318;
-    padding: 12px;
+    padding: 14px 14px 25px 14px;
     border-radius: 15px;
     border: 1px solid #222630;
     box-sizing: border-box;
-    height: 440px; 
+    height: 460px; 
     overflow-y: auto;
 }
 
@@ -240,14 +243,16 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-radius: 20px;
     padding: 25px;
     border: 1px solid #2d3240;
-    max-height: 85vh;
-    overflow-y: auto;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
 }
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    flex-shrink: 0;
 }
 .modal-close {
     background: none; border: none; color: #a0aec0;
@@ -257,16 +262,18 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     width: 100%; padding: 10px; border-radius: 8px;
     background: #111318; border: 1px solid #2d3240; color: white;
     margin-bottom: 15px; box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .potion-selector-row {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     justify-content: center;
     background: rgba(0,0,0,0.15);
     padding: 10px;
     border-radius: 12px;
+    flex-shrink: 0;
 }
 .pot-circle {
     width: 38px; height: 38px; border-radius: 50%;
@@ -283,17 +290,26 @@ h1 { color: #ffffff; font-size: 2.2rem; }
 .pot-circle.active { border-color: white; transform: scale(1.15); }
 .pot-circle:disabled { opacity: 0.2; cursor: not-allowed; border-color: transparent !important; transform: none !important;}
 
+/* FIXED SIZE SYSTEM LIST CONTAINER: Stops window dimension flickering completely */
 .modal-item-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 250px; 
+    background: rgba(0,0,0,0.05);
+    padding: 5px;
+    border-radius: 8px;
 }
 .modal-item-card {
     background: #1c202a; border: 1px solid #2d3240;
     border-radius: 10px; padding: 10px; text-align: center;
     cursor: pointer;
+    height: 105px;
+    box-sizing: border-box;
 }
 .modal-item-card:hover { border-color: #3182ce; }
-.modal-item-card h5 { margin: 5px 0; font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.modal-item-card h5 { margin: 5px 0; font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; color: white; }
 .modal-item-card p { margin: 0; font-size: 0.75rem; color: #48bb78; }
 .modal-item-card .tag-indicator { font-size: 0.65rem; color: #718096; display: block; }
