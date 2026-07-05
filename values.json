@@ -25,7 +25,7 @@
       "mega": 1600.0
     },
     "demand": "High",
-    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Frost+Dragon"
+    "image": "https://static.wikia.nocookie.net/adoptme/images/f/fd/Frost_Dragon_Pet.png/revision/latest?cb=20200116000126"
   },
   {
     "id": "turtle",
@@ -63,5 +63,16 @@
     },
     "demand": "Medium",
     "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Tombstone"
+  },
+  {
+    "id": "candy_cannon",
+    "name": "Candy Cannon",
+    "rarity": "Legendary",
+    "type": "toy",
+    "values": {
+      "normal": 2400.0
+    },
+    "demand": "High",
+    "image": "https://placehold.co/150x150/1a1d24/ffffff?text=Candy+Cannon"
   }
 ]
