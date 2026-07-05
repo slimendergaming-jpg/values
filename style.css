@@ -10,7 +10,7 @@ body {
 header { margin-bottom: 20px; }
 h1 { color: #ffffff; font-size: 2.2rem; }
 
-/* View Switching Navigation */
+/* View Navigation */
 .view-nav {
     display: flex;
     justify-content: center;
@@ -34,7 +34,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border-color: #4299e1;
 }
 
-/* Control Interfaces */
+/* Control Elements */
 .controls-container {
     display: flex;
     flex-direction: column;
@@ -69,7 +69,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     font-size: 1rem;
 }
 
-/* Grid Layout Views */
+/* View Sweeping */
 .view-section { display: none; }
 .view-section.active { display: block; }
 
@@ -81,7 +81,6 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     margin: 0 auto;
 }
 
-/* Dynamic Rarity Profiles */
 .pet-card {
     background-color: #1a1d24;
     border-radius: 12px;
@@ -89,11 +88,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     text-align: center;
     border-top: 6px solid #cbd5e0;
 }
-.pet-card.common { border-top-color: #3182ce; }       /* Blue */
-.pet-card.uncommon { border-top-color: #805ad5; }     /* Purple */
-.pet-card.rare { border-top-color: #48bb78; }         /* Darker Lime Green */
-.pet-card.ultra-rare { border-top-color: #e53e3e; }   /* Red */
-.pet-card.legendary { border-top-color: #111111; }    /* Black */
+.pet-card.legendary { border-top-color: #3182ce; }
 
 .rarity-tag {
     font-size: 0.75rem;
@@ -104,9 +99,9 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     color: #a0aec0;
 }
 
-/* --- TRADE CALCULATOR LOOKS --- */
+/* --- DYNAMIC CALC MATRIX LIST DESIGN --- */
 .trade-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     background-color: #161920;
     border-radius: 20px;
@@ -138,18 +133,26 @@ h1 { color: #ffffff; font-size: 2.2rem; }
 .trade-flex-grids {
     display: flex;
     justify-content: space-around;
-    gap: 30px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 .trade-side {
     flex: 1;
-    min-width: 300px;
-    max-width: 360px;
+    min-width: 320px;
+    max-width: 480px;
 }
-.trade-side h2 { margin-bottom: 15px; font-size: 1.3rem; color: #a0aec0; }
+.trade-side h2 { margin-bottom: 5px; font-size: 1.3rem; color: #a0aec0; }
 
-/* 3x3 Grid Matrix slots */
-.matrix-grid {
+.limit-warning {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #e53e3e;
+    margin-bottom: 10px;
+    min-height: 18px;
+}
+
+/* Matrix list container with scroll capabilities */
+.matrix-grid-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
@@ -157,7 +160,10 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     padding: 12px;
     border-radius: 15px;
     border: 1px solid #222630;
+    max-height: 420px;
+    overflow-y: auto;
 }
+
 .grid-slot {
     aspect-ratio: 1;
     background-color: #1c202a;
@@ -169,12 +175,11 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     position: relative;
     cursor: pointer;
     transition: all 0.2s;
-    overflow: hidden;
 }
 .grid-slot:hover { border-color: #4299e1; background-color: #222836; }
 .grid-slot.occupied { border-style: solid; border-color: #2d3139; background-color: #1a1d24; }
 
-.slot-plus { font-size: 2rem; color: #4a5568; }
+.slot-plus { font-size: 2.2rem; color: #4a5568; font-weight: bold; }
 
 .slotted-item {
     width: 100%;
@@ -186,7 +191,7 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     padding: 5px;
     box-sizing: border-box;
 }
-.slotted-item h4 { margin: 4px 0 0 0; font-size: 0.75rem; text-align: center; }
+.slotted-item h4 { margin: 2px 0; font-size: 0.75rem; text-align: center; color: white; word-break: break-word; }
 .slotted-item p { margin: 2px 0 0 0; font-size: 0.7rem; color: #48bb78; font-weight: bold; }
 
 .slot-potions {
@@ -208,12 +213,12 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     justify-content: center;
 }
 
-/* --- POPUP WINDOW MODAL --- */
+/* --- MODAL CONTROL BOX LAYOUT --- */
 .modal-overlay {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.75);
+    background-color: rgba(0,0,0,0.8);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -228,7 +233,6 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     border: 1px solid #2d3240;
     max-height: 85vh;
     overflow-y: auto;
-    text-align: left;
 }
 .modal-header {
     display: flex;
@@ -246,30 +250,33 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     margin-bottom: 15px; box-sizing: border-box;
 }
 
-/* Potion Selector Button Circles */
 .potion-selector-row {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     justify-content: center;
+    background: rgba(0,0,0,0.15);
+    padding: 10px;
+    border-radius: 12px;
 }
 .pot-circle {
-    width: 36px; height: 36px; border-radius: 50%;
+    width: 38px; height: 38px; border-radius: 50%;
     border: 2px solid transparent; color: white; font-weight: bold;
     cursor: pointer; display: flex; align-items: center;
     justify-content: center; font-size: 0.9rem; transition: all 0.15s;
 }
-.pot-circle.btn-f { background-color: #3182ce; } /* Fly Blue */
-.pot-circle.btn-r { background-color: #e53e3e; } /* Ride Red */
-.pot-circle.btn-d { background-color: #dd6b20; } /* Normal Orange */
-.pot-circle.btn-n { background-color: #d69e2e; color: black; } /* Neon Yellow */
-.pot-circle.btn-m { background-color: #805ad5; } /* Mega Purple */
+.pot-circle.btn-f { background-color: #3182ce; }
+.pot-circle.btn-r { background-color: #e53e3e; }
+.pot-circle.btn-d { background-color: #dd6b20; }
+.pot-circle.btn-n { background-color: #d69e2e; color: black; }
+.pot-circle.btn-m { background-color: #805ad5; }
 
-.pot-circle.active { border-color: white; transform: scale(1.1); }
+.pot-circle.active { border-color: white; transform: scale(1.15); }
+.pot-circle:disabled { opacity: 0.2; cursor: not-allowed; border-color: transparent !important; transform: none !important;}
 
 .modal-item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
 }
 .modal-item-card {
@@ -278,5 +285,6 @@ h1 { color: #ffffff; font-size: 2.2rem; }
     cursor: pointer;
 }
 .modal-item-card:hover { border-color: #3182ce; }
-.modal-item-card h5 { margin: 5px 0 2px 0; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-item-card h5 { margin: 5px 0; font-size: 0.8rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 .modal-item-card p { margin: 0; font-size: 0.75rem; color: #48bb78; }
+.modal-item-card .tag-indicator { font-size: 0.65rem; color: #718096; display: block; }
