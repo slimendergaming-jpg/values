@@ -4,6 +4,7 @@
     "name": "Shadow Dragon",
     "rarity": "Legendary",
     "type": "pet",
+    "isOld": true,
     "values": {
       "normal": 150.0,
       "neon": 600.0,
@@ -17,6 +18,7 @@
     "name": "Frost Dragon",
     "rarity": "Legendary",
     "type": "pet",
+    "isOld": true,
     "values": {
       "normal": 100.0,
       "neon": 400.0,
