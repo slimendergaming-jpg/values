@@ -1,17 +1,20 @@
 let petData = [];
 let currentTab = 'all';
-let modalTab = 'all'; // Track categories independently inside item selector
+let modalTab = 'all'; 
 let currentVariant = 'normal';
 let valueMode = 'points';
 let activeView = 'database';
+
+// Global database screen filter state parameters
+let dbFly = true; 
+let dbRide = true;
 
 let yourOfferList = [];
 let theirOfferList = [];
 let activeTargetSide = 'your';
 
-// PERSISTENT SELECTION HOOKS: Choices do not clear upon closing or reopening windows
 let selectedVariant = 'normal'; 
-let selectedFly = true;  // Defaulting to active to lock default old pet baselines
+let selectedFly = true;  
 let selectedRide = true;
 
 async function loadPetData() {
@@ -31,25 +34,21 @@ function calculateItemValue(item, variant, fly, ride) {
     
     let value = item.values[variant] || item.values['normal'] || 0;
     
-    // Safety check for non-pets
     if (item.type !== 'pet') {
         return value;
     }
     
-    // --- UPDATED OLD PET NO-POT COLLECTOR REWARD LOGIC ---
     if (item.isOld) {
         let potionCount = 0;
         if (fly) potionCount++;
         if (ride) potionCount++;
 
         if (potionCount === 1) {
-            value = value * 1.10; // Only 1 potion = +10%
+            value = value * 1.10; 
         } else if (potionCount === 0) {
-            value = value * 1.20; // No Potion / Clean = +20%
+            value = value * 1.20; 
         }
-        // If potionCount === 2 (Fly & Ride), it stays at the base value
     } else {
-        // Standard regular pet additions logic
         if (fly) value += 8;
         if (ride) value += 5;
     }
@@ -78,7 +77,8 @@ function renderDatabaseView() {
     });
 
     filtered.forEach(item => {
-        const baseValue = calculateItemValue(item, currentVariant, currentVariant === 'normal', currentVariant === 'normal');
+        // Appends real-time database check calculations
+        const baseValue = calculateItemValue(item, currentVariant, dbFly, dbRide);
         const card = document.createElement('div');
         const rarityClass = item.rarity.toLowerCase().replace(' ', '-');
         card.className = `pet-card ${rarityClass}`;
@@ -112,7 +112,22 @@ function renderTradeEngine() {
     const badge = document.getElementById('statusBadge');
     
     let diff = yourTotal - theirTotal;
-    balanceDiv.innerText = formatDisplayValue(Math.abs(diff));
+    
+    // --- SMART BALANCE DELTA TRACKING LAYOUTS ---
+    balanceDiv.className = 'trade-total';
+    if (yourTotal === 0 && theirTotal === 0) {
+        balanceDiv.innerText = "0";
+        balanceDiv.classList.add('even');
+    } else if (diff > 0) {
+        balanceDiv.innerText = `+${formatDisplayValue(diff)}`;
+        balanceDiv.classList.add('gain');
+    } else if (diff < 0) {
+        balanceDiv.innerText = `-${formatDisplayValue(Math.abs(diff))}`;
+        balanceDiv.classList.add('loss');
+    } else {
+        balanceDiv.innerText = "0";
+        balanceDiv.classList.add('even');
+    }
     
     badge.className = 'trade-status-badge';
     if (yourTotal === 0 && theirTotal === 0) {
@@ -192,18 +207,17 @@ function renderSideList(containerId, listArray, sideName, warningId) {
 
 function getBorderColorByRarity(rarity) {
     switch(rarity.toLowerCase()) {
-        case 'common': return '#cbd5e0';
-        case 'uncommon': return '#48bb78';
-        case 'rare': return '#3182ce';
-        case 'ultra-rare': return '#805ad5';
-        case 'legendary': return '#dd6b20';
+        case 'common': return '#3182ce';
+        case 'uncommon': return '#805ad5';
+        case 'rare': return '#48bb78';
+        case 'ultra-rare': return '#e53e3e';
+        case 'legendary': return '#111111';
         default: return '#2d3139';
     }
 }
 
 function openModalSelector(side) {
     activeTargetSide = side;
-    // Uses saved selections instead of clearing out inputs
     updateModalUIPots('pet');
     document.getElementById('modalOverlay').classList.add('active');
     renderModalItemList();
@@ -295,7 +309,6 @@ function setupFrameworkEvents() {
 
     document.getElementById('searchBar').addEventListener('input', renderDatabaseView);
     
-    // Main Panel Tab Engine Filters
     document.querySelectorAll('#dbSection .tab-btn').forEach(b => {
         b.addEventListener('click', (e) => {
             document.querySelectorAll('#dbSection .tab-btn').forEach(t => t.classList.remove('active'));
@@ -305,7 +318,6 @@ function setupFrameworkEvents() {
         });
     });
 
-    // Add Menu Popup Tab Engine Filters
     document.querySelectorAll('.modal-tabs .tab-btn').forEach(b => {
         b.addEventListener('click', (e) => {
             document.querySelectorAll('.modal-tabs .tab-btn').forEach(t => t.classList.remove('active'));
@@ -322,6 +334,18 @@ function setupFrameworkEvents() {
             currentVariant = e.target.dataset.variant;
             renderDatabaseView();
         });
+    });
+
+    // Main Catalog Database potion controls events configuration hooks
+    document.getElementById('dbFlyBtn').addEventListener('click', (e) => {
+        dbFly = !dbFly;
+        e.target.classList.toggle('active', dbFly);
+        renderDatabaseView();
+    });
+    document.getElementById('dbRideBtn').addEventListener('click', (e) => {
+        dbRide = !dbRide;
+        e.target.classList.toggle('active', dbRide);
+        renderDatabaseView();
     });
 
     document.querySelectorAll('.mode-btn').forEach(b => {
