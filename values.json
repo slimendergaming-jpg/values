@@ -65,6 +65,16 @@
     "demand": "High"
   },
   {
+    "id": "tombstone",
+    "name": "Tombstone Ghostify",
+    "rarity": "Rare",
+    "type": "toy",
+    "values": {
+      "normal": 65.0
+    },
+    "demand": "Medium"
+  },
+  {
     "id": "arctic_reindeer",
     "name": "Arctic Reindeer",
     "rarity": "Legendary",
@@ -98,15 +108,5 @@
       "normal": 6400.0
     },
     "demand": "High"
-  },
-  {
-    "id": "tombstone",
-    "name": "Tombstone Ghostify",
-    "rarity": "Rare",
-    "type": "toy",
-    "values": {
-      "normal": 75.0
-    },
-    "demand": "Medium"
   }
 ]
