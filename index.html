@@ -22,6 +22,7 @@
         <button class="mode-btn" data-mode="frost">Frost Value Mode</button>
     </div>
 
+    <!-- ================= DATABASE PAGE VIEW ================= -->
     <section id="dbSection" class="view-section active">
         <div class="controls-container">
             <input type="text" id="searchBar" placeholder="Search values database...">
@@ -30,9 +31,6 @@
                 <button class="tab-btn active" data-tab="all">All Items</button>
                 <button class="tab-btn" data-tab="pet">Pets</button>
                 <button class="tab-btn" data-tab="toy">Toys</button>
-                <button class="tab-btn" data-tab="food">Food</button>
-                <button class="tab-btn" data-tab="stroller">Strollers</button>
-                <button class="tab-btn" data-tab="gift">Gifts</button>
             </div>
 
             <div class="tabs">
@@ -41,9 +39,10 @@
                 <button class="variant-btn" data-variant="mega">Mega Neon</button>
             </div>
         </div>
-        <div id="petGrid" class="grid"></section>
+        <div id="petGrid" class="grid"></div>
     </section>
 
+    <!-- ================= SCROLLING 3x3 MATRIX CALCULATOR ================= -->
     <section id="calcSection" class="view-section">
         <div class="trade-container">
             <div class="trade-header-bar">
@@ -55,25 +54,31 @@
             </div>
 
             <div class="trade-flex-grids">
+                <!-- Left Matrix List Panel -->
                 <div class="trade-side">
                     <h2>Your Offer (<span id="yourTotal">0</span>)</h2>
-                    <div id="yourSlots" class="matrix-grid"></div>
+                    <div id="yourWarning" class="limit-warning"></div>
+                    <div id="yourSlots" class="matrix-grid-list"></div>
                 </div>
+                <!-- Right Matrix List Panel -->
                 <div class="trade-side">
                     <h2>Their Offer (<span id="theirTotal">0</span>)</h2>
-                    <div id="theirSlots" class="matrix-grid"></div>
+                    <div id="theirWarning" class="limit-warning"></div>
+                    <div id="theirSlots" class="matrix-grid-list"></div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ================= ADD ITEM SEARCH MODAL WINDOW ================= -->
     <div id="modalOverlay" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>Add Item to Trade</h3>
+                <h3 style="margin:0; color:white;">Configure & Add Item</h3>
                 <button id="modalClose" class="modal-close">&times;</button>
             </div>
             
+            <!-- Potion Controller Circular Indicators -->
             <div class="potion-selector-row">
                 <button id="potD" class="pot-circle btn-d active" data-var="normal">D</button>
                 <button id="potN" class="pot-circle btn-n" data-var="neon">N</button>
